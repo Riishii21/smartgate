@@ -1,0 +1,110 @@
+==============================================================================
+SAMPLE OUTPUT — 01_billing_dispute.txt
+==============================================================================
+
+INPUT
+------------------------------------------------------------------------------
+Subject: Charged twice for the same order
+Channel: email
+
+Hello,
+
+I bought a monitor from Northgate Electronics on 12 July for £84.99, but the charge
+has appeared twice on my card 4539 1488 0343 6467. I only placed one order and I have
+the confirmation email to prove it.
+
+Please refund the duplicate. You can reach me on 07700 900123.
+
+Regards,
+A. Whitfield
+
+PII REDACTION
+------------------------------------------------------------------------------
+Identifiers tokenised before the model call: CARD, PHONE
+Text as seen by the model:
+Hello,
+
+I bought a monitor from Northgate Electronics on 12 July for £84.99, but the charge
+has appeared twice on my card [CARD_1]. I only placed one order and I have
+the confirmation email to prove it.
+
+Please refund the duplicate. You can reach me on [PHONE_1].
+
+Regards,
+A. Whitfield
+
+CLASSIFICATION
+------------------------------------------------------------------------------
+Type        : billing_dispute
+Urgency     : high
+Confidence  : 0.95
+Sub-topic   : duplicate charge
+Source      : llm
+Reasoning   : Customer reports duplicate charge
+Vulnerability signals: none
+Entities extracted:
+  amount: £84.99
+  date: 12 July
+  merchant: Northgate Electronics
+  card_last_four: [CARD_1]
+
+ROUTING DECISION
+------------------------------------------------------------------------------
+Branch      : dispute
+Assigned to : Disputes - Chargebacks
+Auto-send   : yes
+
+REMEDIATION STEPS EXECUTED
+------------------------------------------------------------------------------
+1. Check dispute eligibility
+   No transaction date supplied; assuming within 120-day window.
+   -> eligible
+2. Draft acknowledgement
+   Customer-facing reply generated
+   -> Dear Mr Whitfield,
+
+Thank you for contacting us about the disputed transaction of £84.99 at Northgate Electronics on your card [CARD_1]. We've raised a dispute ...
+3. Route to team
+   Assigned to Disputes - Chargebacks
+   -> Disputes - Chargebacks
+4. Set follow-up
+   Investigation update due by 2026-07-26T14:25:40+00:00
+   -> 2026-07-26T14:25:40+00:00
+
+GENERATED DRAFT REPLY
+------------------------------------------------------------------------------
+Dear Mr Whitfield,
+
+Thank you for contacting us about the disputed transaction of £84.99 at Northgate Electronics on your card 4539 1488 0343 6467. We've raised a dispute and our team will investigate this matter. You may be eligible for a provisional credit while we look into this. We'll be in touch with further information.
+
+Card Services
+
+CASE RECORD
+------------------------------------------------------------------------------
+Case ID     : CASE-D23C19D5
+Status      : auto_actioned
+SLA due     : 2026-07-26T14:25:40+00:00
+
+AUDIT TRAIL
+------------------------------------------------------------------------------
+[2026-07-25T14:25:39+00:00] intake
+    decision: Case CASE-D23C19D5 opened
+    detail  : channel=email, 300 chars
+[2026-07-25T14:25:39+00:00] redact_pii
+    decision: 2 identifier(s) tokenised
+    detail  : kinds=CARD, PHONE; raw PII not sent to model provider
+[2026-07-25T14:25:40+00:00] classify
+    decision: billing_dispute / high (confidence 0.95, via llm)
+    detail  : Schema-valid LLM classification
+[2026-07-25T14:25:40+00:00] router_gate
+    decision: branch=dispute, auto_send=yes
+    detail  : All gate checks passed
+[2026-07-25T14:25:40+00:00] branch:dispute
+    decision: 4 steps executed, routed to Disputes - Chargebacks
+    detail  : No transaction date supplied; assuming within 120-day window.
+[2026-07-25T14:25:40+00:00] finalize
+    decision: Case closed to status 'auto_actioned'
+    detail  : 4 remediation steps recorded
+
+==============================================================================
+Generated 2026-07-25T14:25:40+00:00

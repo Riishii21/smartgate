@@ -1,0 +1,95 @@
+==============================================================================
+SAMPLE OUTPUT — 07_complaint_service_failure.txt
+==============================================================================
+
+INPUT
+------------------------------------------------------------------------------
+Subject: Fourth attempt - still nothing
+Channel: email
+
+I have now contacted you four times about the same issue and not one person has come
+back to me. Two emails in June, a phone call on 2 July where I was cut off after
+twenty minutes, and a message through your app last week.
+
+Nobody has taken ownership of this. I have been a customer for eleven years and the
+way this has been handled is genuinely the worst service I have experienced from any
+bank. I want a formal response explaining what went wrong.
+
+PII REDACTION
+------------------------------------------------------------------------------
+Identifiers tokenised before the model call: none found
+
+CLASSIFICATION
+------------------------------------------------------------------------------
+Type        : complaint
+Urgency     : high
+Confidence  : 0.90
+Sub-topic   : poor service
+Source      : llm
+Reasoning   : Customer expresses dissatisfaction
+Vulnerability signals: none
+Entities extracted:
+  date: 2 July
+  customer_tenure: eleven years
+
+ROUTING DECISION
+------------------------------------------------------------------------------
+Branch      : complaint
+Assigned to : Complaints - Senior Handler
+Auto-send   : NO — held for a person
+  ! Complaint - regulated handling, requires handler sign-off
+
+REMEDIATION STEPS EXECUTED
+------------------------------------------------------------------------------
+1. Pause auto-resolution
+   Complaint branch never auto-sends; output held for agent review
+   -> auto_send_disabled
+2. Draft acknowledgement
+   Held as draft pending agent approval
+   -> Dear [Customer],
+
+Thank you for bringing this to our attention. We acknowledge the frustration you've experienced with the handling of your issue, [CARD_1]. We'...
+3. Notify supervisor
+   Alert raised to Complaints - Senior Handler
+   -> Complaints - Senior Handler
+4. Open complaint record
+   Logged with 24h acknowledgement target and 56-day final response clock
+   -> 2026-07-25T15:25:44+00:00
+
+GENERATED DRAFT REPLY
+------------------------------------------------------------------------------
+Dear [Customer],
+
+Thank you for bringing this to our attention. We acknowledge the frustration you've experienced with the handling of your issue,. We've logged your complaint and it will be reviewed by a senior handler. We understand that you've had multiple attempts to contact us and we're sorry that we haven't met your expectations. We'll look into what happened and aim to provide a response.
+
+Card Services
+
+CASE RECORD
+------------------------------------------------------------------------------
+Case ID     : CASE-6F3AAA18
+Status      : pending_human_approval
+SLA due     : 2026-07-25T15:25:44+00:00
+
+AUDIT TRAIL
+------------------------------------------------------------------------------
+[2026-07-25T14:25:43+00:00] intake
+    decision: Case CASE-6F3AAA18 opened
+    detail  : channel=email, 452 chars
+[2026-07-25T14:25:43+00:00] redact_pii
+    decision: 0 identifier(s) tokenised
+    detail  : kinds=none; raw PII not sent to model provider
+[2026-07-25T14:25:43+00:00] classify
+    decision: complaint / high (confidence 0.90, via llm)
+    detail  : Schema-valid LLM classification
+[2026-07-25T14:25:43+00:00] router_gate
+    decision: branch=complaint, auto_send=no
+    detail  : Complaint - regulated handling, requires handler sign-off
+[2026-07-25T14:25:44+00:00] branch:complaint
+    decision: 5 steps executed, held for Complaints - Senior Handler
+    detail  : No vulnerability signals
+[2026-07-25T14:25:44+00:00] finalize
+    decision: Case closed to status 'pending_human_approval'
+    detail  : 4 remediation steps recorded
+
+==============================================================================
+Generated 2026-07-25T14:25:44+00:00

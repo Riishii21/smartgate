@@ -1,0 +1,79 @@
+==============================================================================
+SAMPLE OUTPUT — 02_general_enquiry.txt
+==============================================================================
+
+INPUT
+------------------------------------------------------------------------------
+Subject: Balance transfer question
+Channel: email
+
+Hi, I'm thinking about moving a balance from another card. How long does a balance
+transfer usually take to go through, and should I keep paying the old card in the
+meantime? Thanks.
+
+PII REDACTION
+------------------------------------------------------------------------------
+Identifiers tokenised before the model call: none found
+
+CLASSIFICATION
+------------------------------------------------------------------------------
+Type        : general_enquiry
+Urgency     : low
+Confidence  : 0.90
+Sub-topic   : balance transfer
+Source      : llm
+Reasoning   : Asking for information only
+Vulnerability signals: none
+
+ROUTING DECISION
+------------------------------------------------------------------------------
+Branch      : enquiry
+Assigned to : Auto-resolved
+Auto-send   : yes
+
+REMEDIATION STEPS EXECUTED
+------------------------------------------------------------------------------
+1. Knowledge-base lookup
+   Matched 1 article(s): Balance transfer timescales
+   -> Balance transfer timescales
+2. Draft response
+   Answer grounded in knowledge base
+   -> Balance transfers usually complete within 3 to 5 working days once the transfer request is accepted. In the meantime, you should keep paying your existing card ...
+3. Log outcome
+   Case marked auto_resolved
+   -> auto_resolved
+
+GENERATED DRAFT REPLY
+------------------------------------------------------------------------------
+Balance transfers usually complete within 3 to 5 working days once the transfer request is accepted. In the meantime, you should keep paying your existing card until the transfer shows as settled. 
+Card Services
+
+CASE RECORD
+------------------------------------------------------------------------------
+Case ID     : CASE-0CE6E7B8
+Status      : auto_resolved
+SLA due     : 2026-07-27T14:25:40+00:00
+
+AUDIT TRAIL
+------------------------------------------------------------------------------
+[2026-07-25T14:25:40+00:00] intake
+    decision: Case CASE-0CE6E7B8 opened
+    detail  : channel=email, 182 chars
+[2026-07-25T14:25:40+00:00] redact_pii
+    decision: 0 identifier(s) tokenised
+    detail  : kinds=none; raw PII not sent to model provider
+[2026-07-25T14:25:40+00:00] classify
+    decision: general_enquiry / low (confidence 0.90, via llm)
+    detail  : Schema-valid LLM classification
+[2026-07-25T14:25:40+00:00] router_gate
+    decision: branch=enquiry, auto_send=yes
+    detail  : All gate checks passed
+[2026-07-25T14:25:40+00:00] branch:enquiry
+    decision: 3 steps executed, outcome auto_resolved
+    detail  : Matched 1 article(s): Balance transfer timescales
+[2026-07-25T14:25:40+00:00] finalize
+    decision: Case closed to status 'auto_resolved'
+    detail  : 3 remediation steps recorded
+
+==============================================================================
+Generated 2026-07-25T14:25:40+00:00

@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 860" width="1180" height="860" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M1 1L9 5L1 9" fill="none" stroke="#5A6472" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M1 1L9 5L1 9" fill="none" stroke="#A32D2D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <rect width="1180" height="860" fill="#FFFFFF"/>
+
+  <text x="40" y="44" font-size="21" font-weight="600" fill="#1A1D23">Incoming Request Processing Workflow</text>
+  <text x="40" y="66" font-size="13" fill="#5A6472">Card servicing operations · classification is probabilistic, routing is deterministic</text>
+
+  <!-- pipeline -->
+  <rect x="40" y="96" width="190" height="52" rx="7" fill="#F4F5F7" stroke="#C9CFD8"/>
+  <text x="135" y="118" font-size="13.5" font-weight="600" fill="#1A1D23" text-anchor="middle">Intake</text>
+  <text x="135" y="136" font-size="11" fill="#5A6472" text-anchor="middle">email · web form · inbox</text>
+
+  <line x1="230" y1="122" x2="266" y2="122" stroke="#5A6472" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <rect x="272" y="96" width="190" height="52" rx="7" fill="#F4F5F7" stroke="#C9CFD8"/>
+  <text x="367" y="118" font-size="13.5" font-weight="600" fill="#1A1D23" text-anchor="middle">PII redaction</text>
+  <text x="367" y="136" font-size="11" fill="#5A6472" text-anchor="middle">before any model call</text>
+
+  <line x1="462" y1="122" x2="498" y2="122" stroke="#5A6472" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <rect x="504" y="96" width="212" height="52" rx="7" fill="#EDEAFA" stroke="#8B7FD4"/>
+  <text x="610" y="117" font-size="13.5" font-weight="600" fill="#3B2F8F" text-anchor="middle">LLM classification</text>
+  <text x="610" y="135" font-size="11" fill="#5A4FB0" text-anchor="middle">Llama 3.3 70B · schema-validated</text>
+
+  <line x1="716" y1="122" x2="752" y2="122" stroke="#5A6472" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <rect x="758" y="88" width="212" height="68" rx="7" fill="#FDF4E6" stroke="#D9A441"/>
+  <text x="864" y="110" font-size="13.5" font-weight="600" fill="#7A5410" text-anchor="middle">Router gate</text>
+  <text x="864" y="127" font-size="11" fill="#8A6420" text-anchor="middle">deterministic — no LLM call</text>
+  <text x="864" y="143" font-size="11" fill="#8A6420" text-anchor="middle">selects branch · decides hold</text>
+
+  <!-- classification output -->
+  <rect x="504" y="172" width="212" height="86" rx="7" fill="#FAFAFB" stroke="#DDE1E7" stroke-dasharray="3 3"/>
+  <text x="516" y="192" font-size="10.5" fill="#5A6472">type · urgency · confidence</text>
+  <text x="516" y="209" font-size="10.5" fill="#5A6472">sub_topic · entities</text>
+  <text x="516" y="226" font-size="10.5" fill="#5A6472">vulnerability_signals</text>
+  <text x="516" y="243" font-size="10.5" fill="#5A6472">distinct_requests · alternative_type</text>
+  <line x1="610" y1="148" x2="610" y2="168" stroke="#B6BCC6" stroke-width="1.2" stroke-dasharray="3 3"/>
+
+  <!-- hold rules -->
+  <rect x="758" y="172" width="212" height="112" rx="7" fill="#FBEDED" stroke="#D89090"/>
+  <text x="770" y="192" font-size="11" font-weight="600" fill="#8A2020">Held for a person if ANY:</text>
+  <text x="770" y="211" font-size="10.5" fill="#9A3030">confidence &lt; 0.75</text>
+  <text x="770" y="228" font-size="10.5" fill="#9A3030">vulnerability signal present</text>
+  <text x="770" y="245" font-size="10.5" fill="#9A3030">type is complaint</text>
+  <text x="770" y="262" font-size="10.5" fill="#9A3030">urgency critical · multi-request</text>
+  <text x="770" y="277" font-size="10.5" fill="#9A3030">second label defensible</text>
+  <line x1="864" y1="156" x2="864" y2="168" stroke="#D89090" stroke-width="1.2"/>
+
+  <!-- fan out -->
+  <line x1="864" y1="284" x2="864" y2="312" stroke="#5A6472" stroke-width="1.4"/>
+  <path d="M148 312 L1032 312" fill="none" stroke="#5A6472" stroke-width="1.4"/>
+  <line x1="148" y1="312" x2="148" y2="342" stroke="#5A6472" stroke-width="1.4" marker-end="url(#a)"/>
+  <line x1="442" y1="312" x2="442" y2="342" stroke="#5A6472" stroke-width="1.4" marker-end="url(#a)"/>
+  <line x1="736" y1="312" x2="736" y2="342" stroke="#5A6472" stroke-width="1.4" marker-end="url(#a)"/>
+  <line x1="1032" y1="312" x2="1032" y2="342" stroke="#A32D2D" stroke-width="1.4" marker-end="url(#ar)"/>
+
+  <!-- branch 1 -->
+  <rect x="40" y="348" width="216" height="188" rx="8" fill="#EAF4F1" stroke="#5FA894"/>
+  <text x="56" y="371" font-size="13" font-weight="600" fill="#1F5F4E">Billing dispute</text>
+  <text x="56" y="388" font-size="10.5" fill="#3E7A68">urgency: high · SLA 24h</text>
+  <line x1="56" y1="398" x2="240" y2="398" stroke="#A9CFC3"/>
+  <text x="56" y="418" font-size="11" fill="#1F5F4E">1 · Check 120-day window</text>
+  <text x="56" y="438" font-size="11" fill="#1F5F4E">2 · Draft acknowledgement</text>
+  <text x="56" y="458" font-size="11" fill="#1F5F4E">3 · Route to Chargebacks</text>
+  <text x="56" y="478" font-size="11" fill="#1F5F4E">4 · Set 24h follow-up</text>
+  <text x="56" y="508" font-size="10" fill="#3E7A68">Out of window → Manual Review</text>
+
+  <!-- branch 2 -->
+  <rect x="334" y="348" width="216" height="188" rx="8" fill="#EAF4F1" stroke="#5FA894"/>
+  <text x="350" y="371" font-size="13" font-weight="600" fill="#1F5F4E">General enquiry</text>
+  <text x="350" y="388" font-size="10.5" fill="#3E7A68">urgency: low · SLA 48h</text>
+  <line x1="350" y1="398" x2="534" y2="398" stroke="#A9CFC3"/>
+  <text x="350" y="418" font-size="11" fill="#1F5F4E">1 · Knowledge-base lookup</text>
+  <text x="350" y="438" font-size="11" fill="#1F5F4E">2 · Draft grounded reply</text>
+  <text x="350" y="458" font-size="11" fill="#1F5F4E">3 · Log as resolved</text>
+  <text x="350" y="498" font-size="10" fill="#3E7A68">No KB match → held, never</text>
+  <text x="350" y="512" font-size="10" fill="#3E7A68">answered from model memory</text>
+
+  <!-- branch 3 -->
+  <rect x="628" y="348" width="216" height="188" rx="8" fill="#EAF4F1" stroke="#5FA894"/>
+  <text x="644" y="371" font-size="13" font-weight="600" fill="#1F5F4E">Service request</text>
+  <text x="644" y="388" font-size="10.5" fill="#3E7A68">urgency: medium · SLA 8h</text>
+  <line x1="644" y1="398" x2="828" y2="398" stroke="#A9CFC3"/>
+  <text x="644" y="418" font-size="11" fill="#1F5F4E">1 · Extract required details</text>
+  <text x="644" y="438" font-size="11" fill="#1F5F4E">2 · Route to department</text>
+  <text x="644" y="458" font-size="11" fill="#1F5F4E">3 · Draft confirmation</text>
+  <text x="644" y="478" font-size="11" fill="#1F5F4E">4 · Start SLA timer</text>
+  <text x="644" y="508" font-size="10" fill="#3E7A68">Incomplete → Tier 1, asks for gap</text>
+
+  <!-- branch 4 -->
+  <rect x="922" y="348" width="218" height="188" rx="8" fill="#FBEDED" stroke="#C56A6A"/>
+  <text x="938" y="371" font-size="13" font-weight="600" fill="#8A2020">Complaint</text>
+  <text x="938" y="388" font-size="10.5" fill="#A54040">urgency: critical · never auto-sends</text>
+  <line x1="938" y1="398" x2="1124" y2="398" stroke="#E0B0B0"/>
+  <text x="938" y="418" font-size="11" fill="#8A2020">1 · Pause auto-resolution</text>
+  <text x="938" y="438" font-size="11" fill="#8A2020">2 · Vulnerable-customer handling</text>
+  <text x="938" y="458" font-size="11" fill="#8A2020">3 · Draft acknowledgement</text>
+  <text x="938" y="478" font-size="11" fill="#8A2020">4 · Notify supervisor</text>
+  <text x="938" y="498" font-size="11" fill="#8A2020">5 · Open regulated record</text>
+  <text x="938" y="520" font-size="10" fill="#A54040">24h ack · 56-day final response</text>
+
+  <!-- converge -->
+  <line x1="148" y1="536" x2="148" y2="576" stroke="#5A6472" stroke-width="1.4"/>
+  <line x1="442" y1="536" x2="442" y2="576" stroke="#5A6472" stroke-width="1.4"/>
+  <line x1="736" y1="536" x2="736" y2="576" stroke="#5A6472" stroke-width="1.4"/>
+  <line x1="1031" y1="536" x2="1031" y2="576" stroke="#A32D2D" stroke-width="1.4"/>
+  <path d="M148 576 L1031 576" fill="none" stroke="#5A6472" stroke-width="1.4"/>
+
+  <!-- human review -->
+  <rect x="880" y="608" width="260" height="76" rx="8" fill="#FDF4E6" stroke="#D9A441"/>
+  <text x="1010" y="631" font-size="13" font-weight="600" fill="#7A5410" text-anchor="middle">Human review queue</text>
+  <text x="1010" y="650" font-size="10.5" fill="#8A6420" text-anchor="middle">handler edits and approves</text>
+  <text x="1010" y="668" font-size="10.5" fill="#8A6420" text-anchor="middle">approval written to audit trail</text>
+  <line x1="1031" y1="576" x2="1031" y2="604" stroke="#A32D2D" stroke-width="1.4" marker-end="url(#ar)"/>
+
+  <line x1="500" y1="576" x2="500" y2="612" stroke="#5A6472" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="380" y="618" width="240" height="60" rx="8" fill="#F4F5F7" stroke="#C9CFD8"/>
+  <text x="500" y="641" font-size="13" font-weight="600" fill="#1A1D23" text-anchor="middle">Finalize</text>
+  <text x="500" y="660" font-size="10.5" fill="#5A6472" text-anchor="middle">rehydrate identifiers · persist case</text>
+
+  <line x1="500" y1="678" x2="500" y2="712" stroke="#5A6472" stroke-width="1.4" marker-end="url(#a)"/>
+  <rect x="330" y="718" width="340" height="62" rx="8" fill="#F4F5F7" stroke="#C9CFD8"/>
+  <text x="500" y="741" font-size="13" font-weight="600" fill="#1A1D23" text-anchor="middle">Case store + audit trail</text>
+  <text x="500" y="760" font-size="10.5" fill="#5A6472" text-anchor="middle">every decision timestamped and attributable</text>
+
+  <!-- legend -->
+  <rect x="40" y="608" width="300" height="76" rx="8" fill="#FAFAFB" stroke="#DDE1E7"/>
+  <text x="56" y="629" font-size="11" font-weight="600" fill="#1A1D23">Measured on 65 labelled synthetic cases</text>
+  <text x="56" y="648" font-size="10.5" fill="#5A6472">Type accuracy 85.0% · urgency 80.0%</text>
+  <text x="56" y="665" font-size="10.5" fill="#5A6472">Vulnerable cases held 5/5 · automation 75.4%</text>
+  <text x="56" y="678" font-size="9.5" fill="#8A929E">Synthetic data — upper bound, not a production estimate</text>
+</svg>

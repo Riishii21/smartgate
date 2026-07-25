@@ -1,0 +1,100 @@
+[
+  {
+    "title": "Balance transfer timescales",
+    "tags": [
+      "balance",
+      "transfer",
+      "timescale"
+    ],
+    "body": "Balance transfers usually complete within 3 to 5 working days once the transfer request is accepted. You should keep paying your existing card until the transfer shows as settled."
+  },
+  {
+    "title": "Replacing a lost or stolen card",
+    "tags": [
+      "lost",
+      "stolen",
+      "replacement",
+      "card"
+    ],
+    "body": "A replacement card is despatched within one working day of the report and typically arrives in 3 to 5 working days. The old card is blocked immediately."
+  },
+  {
+    "title": "Disputing a transaction",
+    "tags": [
+      "dispute",
+      "chargeback",
+      "unauthorised",
+      "refund"
+    ],
+    "body": "Transactions can be disputed within 120 days of the transaction date. Provisional credit may be applied while the claim is investigated, and the investigation usually takes up to 45 days."
+  },
+  {
+    "title": "Interest rates and how interest is charged",
+    "tags": [
+      "interest",
+      "apr",
+      "rate",
+      "charged"
+    ],
+    "body": "Interest is charged on any balance not cleared in full by the payment due date. Purchases have an interest-free period of up to 56 days when the previous balance was settled in full."
+  },
+  {
+    "title": "Changing your address",
+    "tags": [
+      "address",
+      "change",
+      "update",
+      "details"
+    ],
+    "body": "An address change is applied within one working day. A confirmation letter is sent to both the old and new address as a security measure."
+  },
+  {
+    "title": "Increasing your credit limit",
+    "tags": [
+      "credit",
+      "limit",
+      "increase"
+    ],
+    "body": "Credit limit increase requests are assessed against affordability and account history. A decision is normally provided within 5 working days."
+  },
+  {
+    "title": "Requesting duplicate statements",
+    "tags": [
+      "statement",
+      "duplicate",
+      "copy"
+    ],
+    "body": "Statements from the last 6 years can be requested. Digital copies are available immediately in online banking and postal copies arrive within 7 working days."
+  },
+  {
+    "title": "Direct debit setup and changes",
+    "tags": [
+      "direct",
+      "debit",
+      "payment",
+      "setup"
+    ],
+    "body": "A direct debit takes up to 10 working days to become active. Until then a manual payment should be made to avoid a missed payment."
+  },
+  {
+    "title": "Foreign transaction fees",
+    "tags": [
+      "foreign",
+      "abroad",
+      "fee",
+      "exchange",
+      "currency"
+    ],
+    "body": "A non-sterling transaction fee of 2.99% applies to purchases made in a foreign currency. Cash withdrawals abroad also carry a cash fee."
+  },
+  {
+    "title": "Closing your account",
+    "tags": [
+      "close",
+      "closure",
+      "cancel",
+      "account"
+    ],
+    "body": "An account can be closed once the balance is cleared. Any pending transactions must settle first, which can take up to 30 days."
+  }
+]

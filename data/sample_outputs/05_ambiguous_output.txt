@@ -1,0 +1,85 @@
+==============================================================================
+SAMPLE OUTPUT — 05_ambiguous.txt
+==============================================================================
+
+INPUT
+------------------------------------------------------------------------------
+Subject: Question
+Channel: email
+
+Hi, wondering about a charge on my account from last week, also could you send me a
+statement copy? Not sure who to ask. Thanks.
+
+PII REDACTION
+------------------------------------------------------------------------------
+Identifiers tokenised before the model call: none found
+
+CLASSIFICATION
+------------------------------------------------------------------------------
+Type        : service_request
+Urgency     : medium
+Confidence  : 0.35
+Sub-topic   : keyword match
+Source      : rules_fallback
+Reasoning   : Rules fallback used; LLM classification unavailable or invalid.
+Vulnerability signals: none
+
+ROUTING DECISION
+------------------------------------------------------------------------------
+Branch      : service_request
+Assigned to : Customer Service - Tier 1
+Auto-send   : NO — held for a person
+  ! Classifier confidence 0.35 below threshold 0.75
+
+REMEDIATION STEPS EXECUTED
+------------------------------------------------------------------------------
+1. Extract required details
+   Needs requested_action for Customer Service - Tier 1. Captured: requested_action=keyword match
+   -> complete
+2. Route to department
+   Assigned to Customer Service - Tier 1
+   -> Customer Service - Tier 1
+3. Generate confirmation
+   Confirmation drafted for requester
+   -> We've received your request about the charge on your account and the statement copy for [CARD_1]. We've passed this to the relevant team to look into. 
+Card Ser...
+4. Start SLA timer
+   Action due by 2026-07-25T22:25:43+00:00
+   -> 2026-07-25T22:25:43+00:00
+
+GENERATED DRAFT REPLY
+------------------------------------------------------------------------------
+We've received your request about the charge on your account and the statement copy for. We've passed this to the relevant team to look into. 
+Card Services
+
+CASE RECORD
+------------------------------------------------------------------------------
+Case ID     : CASE-AE559E1A
+Status      : pending_human_approval
+SLA due     : 2026-07-25T22:25:43+00:00
+
+AUDIT TRAIL
+------------------------------------------------------------------------------
+[2026-07-25T14:25:42+00:00] intake
+    decision: Case CASE-AE559E1A opened
+    detail  : channel=email, 128 chars
+[2026-07-25T14:25:42+00:00] redact_pii
+    decision: 0 identifier(s) tokenised
+    detail  : kinds=none; raw PII not sent to model provider
+[2026-07-25T14:25:42+00:00] classify
+    decision: service_request / medium (confidence 0.35, via rules_fallback)
+    detail  : Schema validation failed: 3 validation errors for Classification
+entities.card_last_four
+  Input should be a valid s
+[2026-07-25T14:25:42+00:00] router_gate
+    decision: branch=service_request, auto_send=no
+    detail  : Classifier confidence 0.35 below threshold 0.75
+[2026-07-25T14:25:43+00:00] branch:service_request
+    decision: 4 steps executed, routed to Customer Service - Tier 1
+    detail  : All required details present
+[2026-07-25T14:25:43+00:00] finalize
+    decision: Case closed to status 'pending_human_approval'
+    detail  : 4 remediation steps recorded
+
+==============================================================================
+Generated 2026-07-25T14:25:43+00:00

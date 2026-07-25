@@ -1,0 +1,85 @@
+==============================================================================
+SAMPLE OUTPUT — 06_angry_but_dispute.txt
+==============================================================================
+
+INPUT
+------------------------------------------------------------------------------
+Subject: ABSOLUTELY FURIOUS
+Channel: email
+
+I am beyond angry. There is a payment of £212.40 on my account to a company called
+Vertex Media that I have NEVER heard of and did NOT authorise. This is unacceptable
+and I want it dealt with today.
+
+PII REDACTION
+------------------------------------------------------------------------------
+Identifiers tokenised before the model call: none found
+
+CLASSIFICATION
+------------------------------------------------------------------------------
+Type        : billing_dispute
+Urgency     : high
+Confidence  : 0.95
+Sub-topic   : unauthorised transaction
+Source      : llm
+Reasoning   : Contests specific unauthorised charge
+Vulnerability signals: none
+Entities extracted:
+  amount: £212.40
+  merchant: Vertex Media
+
+ROUTING DECISION
+------------------------------------------------------------------------------
+Branch      : dispute
+Assigned to : Disputes - Chargebacks
+Auto-send   : yes
+
+REMEDIATION STEPS EXECUTED
+------------------------------------------------------------------------------
+1. Check dispute eligibility
+   No transaction date supplied; assuming within 120-day window.
+   -> eligible
+2. Draft acknowledgement
+   Customer-facing reply generated
+   -> We've raised a dispute for the £212.40 transaction at Vertex Media on your card ending [CARD_1]. Our team will investigate this matter. You may be eligible for ...
+3. Route to team
+   Assigned to Disputes - Chargebacks
+   -> Disputes - Chargebacks
+4. Set follow-up
+   Investigation update due by 2026-07-26T14:25:43+00:00
+   -> 2026-07-26T14:25:43+00:00
+
+GENERATED DRAFT REPLY
+------------------------------------------------------------------------------
+We've raised a dispute for the £212.40 transaction at Vertex Media on your card. Our team will investigate this matter. You may be eligible for a provisional credit while we look into this. We'll be in touch with further information. 
+Card Services
+
+CASE RECORD
+------------------------------------------------------------------------------
+Case ID     : CASE-DE794F3E
+Status      : auto_actioned
+SLA due     : 2026-07-26T14:25:43+00:00
+
+AUDIT TRAIL
+------------------------------------------------------------------------------
+[2026-07-25T14:25:43+00:00] intake
+    decision: Case CASE-DE794F3E opened
+    detail  : channel=email, 198 chars
+[2026-07-25T14:25:43+00:00] redact_pii
+    decision: 0 identifier(s) tokenised
+    detail  : kinds=none; raw PII not sent to model provider
+[2026-07-25T14:25:43+00:00] classify
+    decision: billing_dispute / high (confidence 0.95, via llm)
+    detail  : Schema-valid LLM classification
+[2026-07-25T14:25:43+00:00] router_gate
+    decision: branch=dispute, auto_send=yes
+    detail  : All gate checks passed
+[2026-07-25T14:25:43+00:00] branch:dispute
+    decision: 4 steps executed, routed to Disputes - Chargebacks
+    detail  : No transaction date supplied; assuming within 120-day window.
+[2026-07-25T14:25:43+00:00] finalize
+    decision: Case closed to status 'auto_actioned'
+    detail  : 4 remediation steps recorded
+
+==============================================================================
+Generated 2026-07-25T14:25:43+00:00
