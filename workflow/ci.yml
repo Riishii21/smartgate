@@ -1,0 +1,45 @@
+name: workflow checks
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  branches:
+    name: All four remediation branches execute
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Compile every module
+        run: python -m compileall -q workflow services ui eval
+
+      # The smoke test stubs the language model, so the graph, router and all four
+      # branches are verified without an API key or any network access.
+      - name: Run branch smoke test
+        env:
+          DB_PATH: /tmp/ci.db
+        run: python eval/smoke_test.py
+
+      - name: Check the evaluation dataset is well formed
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          rows = [json.loads(l) for l in pathlib.Path("eval/dataset.jsonl").read_text().splitlines() if l.strip()]
+          required = {"id", "text", "expected_type", "expected_urgency", "expected_hold"}
+          assert rows, "dataset is empty"
+          for r in rows:
+              missing = required - r.keys()
+              assert not missing, f"{r.get('id')} missing {missing}"
+          print(f"{len(rows)} evaluation cases, all well formed")
+          PY
