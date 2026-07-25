@@ -1,6 +1,7 @@
 langgraph>=0.2.0
 pydantic>=2.0
 groq>=0.11.0
+openai>=1.40
 streamlit>=1.36
 python-dotenv>=1.0
-openai>=1.40reportlab>=4.0
+reportlab>=4.0
